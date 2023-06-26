@@ -27,6 +27,4 @@ public class Currency {
   @Size(min = 1, max = 50, message = "")
   private String country;
 
-  @OneToOne(mappedBy = "currency")
-  private Account account;
 }

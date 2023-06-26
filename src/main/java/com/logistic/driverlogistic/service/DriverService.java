@@ -1,12 +1,15 @@
 package com.logistic.driverlogistic.service;
 
-import com.logistic.driverlogistic.api.model.CreateDriver;
-import com.logistic.driverlogistic.api.model.ReadDriver;
+import com.logistic.driverlogistic.model.CreateDriver;
+import com.logistic.driverlogistic.model.ReadDriver;
 import com.logistic.driverlogistic.domain.Driver;
 import com.logistic.driverlogistic.mapper.DriverMapper;
 import com.logistic.driverlogistic.repository.DriverRepository;
-import java.util.Optional;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,45 +22,49 @@ public class DriverService {
   private final DriverMapper driverMapper;
 
   @Transactional
-  public CreateDriver createDriver(CreateDriver driver) {
+  public ReadDriver createDriver(CreateDriver driver) {
 
-    return driverMapper.createDriveFromDriver(
+    return driverMapper.readDriverFromDriver(
         driverRepository.save(driverMapper.driverFromCreateDriver(driver)));
   }
 
   @Transactional
-  public String deleteDriver(long id) {
-    String message = "Driver was delete.";
-    if (driverByIdIsPresent(id)) {
-      driverRepository.deleteById(id);
-    } else {
-      message = String.format("Driver with %s wasn't delete.", id);
-    }
-    return message;
+  public void deleteDriver(long id) {
+
+    driverByIdIsPresent(id);
+    driverRepository.deleteById(id);
   }
 
-  //ToDo
   @Transactional
-  public ReadDriver updateDriver(ReadDriver readDriver, long id) {
+  public ReadDriver updateDriver(CreateDriver createDriver, long id) {
 
-    if (driverByIdIsPresent(id)) {
-      driverRepository.saveAndFlush(driverMapper.driverFromReadDriver(readDriver));
-    }
-    return readDriver;
+    driverByIdIsPresent(id);
+    Driver driver = driverMapper.driverFromCreateDriver(createDriver);
+    driver.setId(id);
+    return driverMapper.readDriverFromDriver(
+        driverRepository.save(driver));
   }
 
   @Transactional
   public ReadDriver getDriverById(long id) {
 
-    Optional<Driver> driver = Optional.of(driverRepository.findById(id)).orElseThrow();
-    return driverMapper.readDriverFromDriver(driver.get());
+    Driver driver = driverRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    return driverMapper.readDriverFromDriver(driver);
+  }
+
+  @Transactional
+  public Page<ReadDriver> getAllDriver(int page, int size) {
+
+    Pageable pageable = PageRequest.of(page, size);
+    Page<Driver> cars = driverRepository.findAll(pageable);
+    return cars.map(driverMapper::readDriverFromDriver);
   }
 
   private boolean driverByIdIsPresent(long id) {
     if (driverRepository.findById(id).isPresent()) {
       return true;
     } else {
-      return false;
+      throw new EntityNotFoundException(String.format("Driver with id = '%s' could be found", id));
     }
   }
 }

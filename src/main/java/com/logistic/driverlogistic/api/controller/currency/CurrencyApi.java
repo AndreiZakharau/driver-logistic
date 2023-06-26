@@ -1,6 +1,6 @@
 package com.logistic.driverlogistic.api.controller.currency;
 
-import com.logistic.driverlogistic.api.model.CurrencyView;
+import com.logistic.driverlogistic.model.ReadCurrency;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +15,6 @@ public interface CurrencyApi {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  CurrencyView addCurrency(@Valid @RequestBody CurrencyView currencyView);
+  ReadCurrency addCurrency(@Valid @RequestBody ReadCurrency readCurrency);
 
 }
