@@ -14,6 +14,7 @@ import com.logistic.driverlogistic.model.ReadDriver;
 import com.logistic.driverlogistic.domain.Driver;
 import com.logistic.driverlogistic.mapper.DriverMapper;
 import com.logistic.driverlogistic.repository.DriverRepository;
+import com.logistic.driverlogistic.service.impl.DriverServiceImpl;
 import com.logistic.driverlogistic.testobject.ModelObject;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -24,10 +25,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class DriverServiceTest {
+class DriverServiceImplTest {
 
   @InjectMocks
-  DriverService service;
+  DriverServiceImpl service;
 
   @Mock
   DriverRepository repository;

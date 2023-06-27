@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.ServletException;
 import java.time.format.DateTimeParseException;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -28,7 +29,6 @@ public class CommonExceptionHandler {
   @ExceptionHandler(ServletException.class)
   @ResponseStatus(INTERNAL_SERVER_ERROR)
   public ExceptionInformation handleServletException(ServletException exception) {
-//    log.error("Something bad happened", exception);
     return new ExceptionInformation(
         ServletException.class.getSimpleName(),
         INTERNAL_SERVER_ERROR,
@@ -84,10 +84,19 @@ public class CommonExceptionHandler {
         getMessageWithoutBrackets(exception.getMessage()));
   }
 
+  @ExceptionHandler(BadParameterException.class)
+  @ResponseStatus(BAD_REQUEST)
+  public ExceptionInformation handleBadRequestException(BadParameterException exception) {
+    return new ExceptionInformation(
+        BadRequest.class.getSimpleName(),
+        BAD_REQUEST,
+        getMessageWithoutBrackets(exception.getMessage()));
+  }
+
   @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
   @ResponseStatus(BAD_REQUEST)
   public ExceptionInformation handleMethodArgumentNotValidException(BindException exception) {
-    var message =
+    String message =
         exception.getBindingResult().getAllErrors().stream()
             .map(DefaultMessageSourceResolvable::getDefaultMessage)
             .collect(Collectors.joining(", "));
@@ -108,7 +117,7 @@ public class CommonExceptionHandler {
   @ResponseStatus(BAD_REQUEST)
   public ExceptionInformation handleDateTimeParseException(
       DateTimeParseException exception) {
-    return  new ExceptionInformation(DateTimeParseException.class.getSimpleName(),
+    return new ExceptionInformation(DateTimeParseException.class.getSimpleName(),
         BAD_REQUEST,
         "Invalid date format. Date format mast be yyyy-MM-dd (1980-03-27)");
 
@@ -118,8 +127,7 @@ public class CommonExceptionHandler {
   @ResponseStatus(BAD_REQUEST)
   public ExceptionInformation handleDataIntegrityViolationException(
       DataIntegrityViolationException exception) {
-//    log.error(exception.getMessage(), exception);
-    var message =
+    String message =
         "Unable to execute the database operation as it will result in violation of data integrity. ";
     return new ExceptionInformation(
         DataIntegrityViolationException.class.getSimpleName(),
@@ -131,7 +139,7 @@ public class CommonExceptionHandler {
   @ResponseStatus(METHOD_NOT_ALLOWED)
   public ExceptionInformation handleHttpRequestMethodNotSupportedException(
       HttpRequestMethodNotSupportedException exception) {
-    var messageSuffix = " with such parameters or path variables";
+    String messageSuffix = " with such parameters or path variables";
     return new ExceptionInformation(
         HttpRequestMethodNotSupportedException.class.getSimpleName(),
         METHOD_NOT_ALLOWED,

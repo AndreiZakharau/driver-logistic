@@ -1,14 +1,11 @@
 package com.logistic.driverlogistic.domain;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import java.math.BigDecimal;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,15 +23,18 @@ import lombok.ToString;
 public class Account {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private BigDecimal cash;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "currency_id", referencedColumnName = "code")
+
+  @OneToOne
+  @JoinColumn(name = "currency_id")
   private Currency currency;
 
-  @OneToOne(mappedBy = "driverAccount")
-  private Driver driverId;
+  @OneToOne
+  @MapsId
+  @JoinColumn(name = "driver_id")
+  private Driver driver;
+
 }

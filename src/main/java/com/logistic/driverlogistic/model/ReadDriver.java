@@ -1,6 +1,5 @@
 package com.logistic.driverlogistic.model;
 
-import com.logistic.driverlogistic.domain.Account;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,11 +13,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public final class ReadDriver {
 
-  private long id;
+  private Long id;
   private String categories;
   private String fullName;
   private String passportNumber;
-  private Account driverAccount;
+  private ReadAccount driverAccount;
   private Byte experience;
   private String birthDay;
 

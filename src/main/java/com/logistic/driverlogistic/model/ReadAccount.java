@@ -18,7 +18,7 @@ public class ReadAccount {
 
   private Long id;
   private BigDecimal cash;
-  private Currency currency;
-  private Driver driverId;
+  private ReadCurrency currency;
+  private ReadDriver driverId;
 
 }

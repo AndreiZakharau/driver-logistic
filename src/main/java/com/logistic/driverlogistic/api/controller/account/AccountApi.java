@@ -1,7 +1,9 @@
-package com.logistic.driverlogistic.api.controller.driver;
+package com.logistic.driverlogistic.api.controller.account;
 
-import com.logistic.driverlogistic.model.CreateDriver;
-import com.logistic.driverlogistic.model.ReadDriver;
+import com.logistic.driverlogistic.model.ChangeBalanceModel;
+import com.logistic.driverlogistic.model.CreateAccount;
+import com.logistic.driverlogistic.model.ExchangeRates;
+import com.logistic.driverlogistic.model.ReadAccount;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,31 +18,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@RequestMapping("/driver")
+@RequestMapping("/account")
 @Validated
-public interface DriverApi {
+public interface AccountApi {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  ReadDriver addDriver(@Valid @RequestBody CreateDriver createDriver);
+  ReadAccount addAccount(@Valid @RequestBody CreateAccount createAccount);
 
-  @DeleteMapping("{id}")
+  @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  void deleteDriver(@PathVariable long id);
+  void deleteAccount(@PathVariable long id);
 
-  @PutMapping("{id}")
+  @PutMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  ReadDriver updateDriver(@RequestBody CreateDriver createDriver, @PathVariable long id);
+  ReadAccount updateAccount(@Valid @RequestBody CreateAccount createAccount, @PathVariable long id);
 
-  @GetMapping("{id}")
+  @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  ReadDriver getDriverById(@PathVariable long id);
+  ReadAccount getAccountById(@PathVariable long id);
 
   @GetMapping()
   @ResponseStatus(HttpStatus.OK)
-  Page<ReadDriver> findAllDriver(
+  Page<ReadAccount> findAllAccount(
       @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
       @RequestParam(value = "size", defaultValue = "10", required = false) Integer size);
 
+  @GetMapping("/{id}/cash/convert")
+  @ResponseStatus(HttpStatus.OK)
+  ReadAccount showConvertCash(@PathVariable long id,
+      @Valid @RequestBody ExchangeRates exchangeRates);
 
+  @PutMapping("/{id}/cash")
+  @ResponseStatus(HttpStatus.OK)
+  ReadAccount changeCashBalance(@PathVariable long id,
+      @Valid @RequestBody ChangeBalanceModel changeBalanceModel);
 }
