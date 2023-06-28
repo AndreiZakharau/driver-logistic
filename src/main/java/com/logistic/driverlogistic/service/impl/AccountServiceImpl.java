@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
   @Override
   public ReadAccount add(CreateAccount createAccount) {
 
-    Account account =  repository.save(mapper.accountFromCreateAccount(createAccount));
+    Account account = repository.save(mapper.accountFromCreateAccount(createAccount));
     return mapper.readAccountFromAccount(account);
   }
 
@@ -56,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
   public ReadAccount update(CreateAccount createAccount, long id) {
 
     ReadAccount account = get(id);
-    if (account.getCurrency().getId()!=(createAccount.getCurrency().getId())) {
+    if (account.getCurrency().getId() != (createAccount.getCurrency().getId())) {
       throw new BadParameterException(
           "You cannot change the 'currency' field here, first convert your account");
     }

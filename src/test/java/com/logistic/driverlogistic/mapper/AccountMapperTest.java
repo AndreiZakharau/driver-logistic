@@ -21,8 +21,7 @@ class AccountMapperTest {
 
     assertNotNull(account);
     assertEquals(account.getCash(), createAccount.getCash());
-    assertEquals(account.getCurrency(), createAccount.getCurrency());
-    assertEquals(account.getDriverId(), createAccount.getDriverId());
+    assertEquals(account.getCurrency().getCode(), createAccount.getCurrency().getCode());
   }
 
   @Test
@@ -33,10 +32,8 @@ class AccountMapperTest {
     Account account = ACCOUNT_MAPPER.accountFromReadAccount(readAccount);
 
     assertNotNull(account);
-    assertEquals(account.getId(), readAccount.getId());
     assertEquals(account.getCash(), readAccount.getCash());
-    assertEquals(account.getCurrency(), readAccount.getCurrency());
-    assertEquals(account.getDriverId(), readAccount.getDriverId());
+    assertEquals(account.getCurrency().getCode(), readAccount.getCurrency().getCode());
   }
 
   @Test
@@ -47,9 +44,8 @@ class AccountMapperTest {
     ReadAccount readAccount = ACCOUNT_MAPPER.readAccountFromAccount(account);
 
     assertNotNull(readAccount);
-    assertEquals(readAccount.getId(), account.getId());
     assertEquals(readAccount.getCash(), account.getCash());
-    assertEquals(readAccount.getCurrency(), account.getCurrency());
-    assertEquals(readAccount.getDriverId(), account.getDriverId());
+    assertEquals(readAccount.getCurrency().getCode(), account.getCurrency().getCode());
+
   }
 }

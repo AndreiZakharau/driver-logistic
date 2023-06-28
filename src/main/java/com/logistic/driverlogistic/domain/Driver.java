@@ -55,6 +55,6 @@ public class Driver {
 
   @NotNull
   @OneToOne(mappedBy = "driver", cascade = CascadeType.ALL)
- @PrimaryKeyJoinColumn
+  @PrimaryKeyJoinColumn
   private Account account;
 }

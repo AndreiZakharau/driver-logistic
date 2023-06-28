@@ -1,6 +1,5 @@
 package com.logistic.driverlogistic.model;
 
-import com.logistic.driverlogistic.domain.Currency;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -28,6 +27,5 @@ public class ExchangeRates {
   @NotNull(message = "Value 'rate' cannot be null")
   @Pattern(regexp = "[1-9]\\d*?(,\\d{1,3})?", message = "Value 'rate' must use only capital latin letters")
   double rate;
-
 
 }

@@ -64,7 +64,6 @@ public class CommonExceptionHandler {
         String.format("Parameter %s is required", exception.getParameterName()));
   }
 
-
   @ExceptionHandler(EntityNotFoundException.class)
   @ResponseStatus(NOT_FOUND)
   public ExceptionInformation handleNotFoundException(EntityNotFoundException exception) {
@@ -73,7 +72,6 @@ public class CommonExceptionHandler {
         NOT_FOUND,
         "Entity does not exists");
   }
-
 
   @ExceptionHandler(BadRequest.class)
   @ResponseStatus(BAD_REQUEST)
@@ -150,6 +148,4 @@ public class CommonExceptionHandler {
   private String getMessageWithoutBrackets(String message) {
     return StringUtils.removeStart(StringUtils.removeEnd(message, "]"), "[");
   }
-
-
 }

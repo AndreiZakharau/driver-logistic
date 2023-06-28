@@ -21,6 +21,7 @@ class CurrencyMapperTest {
     assertNotNull(currency);
     assertEquals(currency.getCode(), readCurrency.getCode());
     assertEquals(currency.getCountry(), readCurrency.getCountry());
+    assertEquals(currency.getId(), readCurrency.getId());
   }
 
   @Test
@@ -31,6 +32,7 @@ class CurrencyMapperTest {
     ReadCurrency readCurrency = CURRENCY_MAPPER.readCurrencyFromCurrency(currency);
 
     assertNotNull(readCurrency);
+    assertEquals(readCurrency.getId(), currency.getId());
     assertEquals(readCurrency.getCode(), currency.getCode());
     assertEquals(readCurrency.getCountry(), currency.getCountry());
   }

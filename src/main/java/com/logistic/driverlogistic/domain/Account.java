@@ -1,5 +1,6 @@
 package com.logistic.driverlogistic.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -23,10 +24,10 @@ import lombok.ToString;
 public class Account {
 
   @Id
+  @Column(name = "driver_id")
   private Long id;
 
   private BigDecimal cash;
-
 
   @OneToOne
   @JoinColumn(name = "currency_id")

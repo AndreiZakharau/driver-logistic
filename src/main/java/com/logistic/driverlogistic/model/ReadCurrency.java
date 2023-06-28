@@ -13,11 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ReadCurrency {
 
-  private Integer id;
-
+  private Long id;
   private String code;
-
   private String country;
-
 
 }

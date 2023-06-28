@@ -36,7 +36,7 @@ public class CurrencyServiceImpl implements CurrencyService {
   public void delete(long id) {
 
     currencyByIdIsPresent(id);
-//    repository.deleteById(id);
+    repository.deleteById(id);
   }
 
 
@@ -67,6 +67,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     Page<Currency> currencies = repository.findAll(pageable);
     return currencies.map(mapper::readCurrencyFromCurrency);
   }
+
   @Transactional
   @Override
   public List<String> getListCode() {
@@ -77,6 +78,7 @@ public class CurrencyServiceImpl implements CurrencyService {
   }
 
   @Transactional
+  @Override
   public ReadCurrency getCurrencyByCode(String code) {
 
     return mapper.readCurrencyFromCurrency(repository.getCurrenciesByCode(code));
@@ -86,7 +88,8 @@ public class CurrencyServiceImpl implements CurrencyService {
     if (repository.findById(id).isPresent()) {
       return true;
     } else {
-      throw new EntityNotFoundException(String.format("Driver with id = '%s' could be found", id));
+      throw new EntityNotFoundException(
+          String.format("Currency with id = '%s' could be found", id));
     }
   }
 }

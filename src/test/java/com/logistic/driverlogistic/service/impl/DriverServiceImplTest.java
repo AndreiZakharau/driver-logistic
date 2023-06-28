@@ -1,4 +1,4 @@
-package com.logistic.driverlogistic.service;
+package com.logistic.driverlogistic.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -9,12 +9,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.logistic.driverlogistic.model.CreateDriver;
-import com.logistic.driverlogistic.model.ReadDriver;
 import com.logistic.driverlogistic.domain.Driver;
 import com.logistic.driverlogistic.mapper.DriverMapper;
+import com.logistic.driverlogistic.model.CreateDriver;
+import com.logistic.driverlogistic.model.ReadDriver;
 import com.logistic.driverlogistic.repository.DriverRepository;
-import com.logistic.driverlogistic.service.impl.DriverServiceImpl;
 import com.logistic.driverlogistic.testobject.ModelObject;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -49,7 +48,7 @@ class DriverServiceImplTest {
     when(repository.save(driver)).thenReturn(driver);
     when(mapper.readDriverFromDriver(driver)).thenReturn(readDriver);
 
-    ReadDriver actual = service.createDriver(createDriver);
+    ReadDriver actual = service.add(createDriver);
 
     assertNotNull(actual);
     assertEquals(actual.getBirthDay(), readDriver.getBirthDay());
@@ -67,7 +66,7 @@ class DriverServiceImplTest {
 
     when(repository.findById(id)).thenReturn(Optional.of(driver));
 
-    service.deleteDriver(id);
+    service.delete(id);
 
     verify(repository, times(1)).findById(id);
     verify(repository, times(1)).deleteById(id);
@@ -82,7 +81,7 @@ class DriverServiceImplTest {
     when(repository.findById(id)).thenReturn(Optional.empty());
 
     Throwable exception = assertThrows(EntityNotFoundException.class,
-        () -> service.deleteDriver(id));
+        () -> service.delete(id));
     assertNotNull(exception.getMessage());
     assertEquals(exception.getMessage(), exceptionMessage);
 
@@ -109,7 +108,7 @@ class DriverServiceImplTest {
     when(repository.save(driver)).thenReturn(driver);
     when(mapper.readDriverFromDriver(driver)).thenReturn(readDriver);
 
-    ReadDriver actual = service.updateDriver(createDriver, id);
+    ReadDriver actual = service.update(createDriver, id);
 
     assertNotNull(actual);
     assertEquals(actual.getId(), readDriver.getId());
@@ -131,7 +130,7 @@ class DriverServiceImplTest {
     when(repository.findById(id)).thenReturn(Optional.of(driver));
     when(mapper.readDriverFromDriver(driver)).thenReturn(readDriver);
 
-    ReadDriver actual = service.getDriverById(id);
+    ReadDriver actual = service.get(id);
 
     assertNotNull(actual);
     assertEquals(actual.getId(), readDriver.getId());
@@ -151,10 +150,9 @@ class DriverServiceImplTest {
 
     when(repository.findById(id)).thenReturn(Optional.empty());
 
-    Throwable exception = assertThrows(EntityNotFoundException.class, () -> service.getDriverById(id));
+    Throwable exception = assertThrows(EntityNotFoundException.class, () -> service.get(id));
     assertNull(exception.getMessage());
 
     verify(repository, times(1)).findById(id);
-
   }
 }

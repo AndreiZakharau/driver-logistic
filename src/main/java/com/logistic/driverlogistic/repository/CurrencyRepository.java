@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface CurrencyRepository extends JpaRepository<Currency, String> {
 
   void deleteById(Long id);
+
   Optional<Currency> findById(Long id);
+
   Currency getCurrenciesByCode(String code);
 }

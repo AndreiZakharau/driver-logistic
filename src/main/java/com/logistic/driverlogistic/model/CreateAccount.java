@@ -17,6 +17,7 @@ public class CreateAccount {
 
   @NotNull(message = "Value 'cash' cannot be null")
   private BigDecimal cash;
+  @NotNull(message = "Value 'currency' cannot be null")
   private ReadCurrency currency;
 
 }
