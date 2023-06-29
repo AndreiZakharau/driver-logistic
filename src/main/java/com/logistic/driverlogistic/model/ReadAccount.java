@@ -1,5 +1,6 @@
 package com.logistic.driverlogistic.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "Model view account")
 public class ReadAccount {
 
   private BigDecimal cash;

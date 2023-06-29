@@ -1,5 +1,6 @@
 package com.logistic.driverlogistic.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
+@Schema(description = "Model for update balance")
 public class ChangeBalanceModel {
 
   @NotNull(message = "Value 'cash' cannot be null")
@@ -26,4 +28,8 @@ public class ChangeBalanceModel {
 
   @NotNull(message = "Value 'rates' cannot be null")
   private List<ExchangeRates> rates;
+
+  @NotNull
+  @Pattern(regexp = "[+-]", message = "Value 'operation must' be only plus(+) or mines(-)")
+  private String operation;
 }

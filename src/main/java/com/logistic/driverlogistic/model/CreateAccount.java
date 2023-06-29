@@ -1,5 +1,6 @@
 package com.logistic.driverlogistic.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
@@ -13,10 +14,12 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "Model create account")
 public class CreateAccount {
 
   @NotNull(message = "Value 'cash' cannot be null")
   private BigDecimal cash;
+
   @NotNull(message = "Value 'currency' cannot be null")
   private ReadCurrency currency;
 

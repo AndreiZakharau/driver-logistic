@@ -1,5 +1,6 @@
 package com.logistic.driverlogistic.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "Model create currency")
 public class CreateCurrency {
 
   @NotNull(message = "Value code cannot be null")

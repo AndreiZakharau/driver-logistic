@@ -118,7 +118,7 @@ class AccountServiceImplTest {
   @Test
   void convertCash() {
 
-    Long id = 1L;
+    long id = 1L;
     List<String> listCode = List.of("RUS", "EUR", "USD");
     ExchangeRates rates = ExchangeRates.builder()
         .firstCode(ReadCurrency.builder().id(3L).code("USD").country("Russia").build())
