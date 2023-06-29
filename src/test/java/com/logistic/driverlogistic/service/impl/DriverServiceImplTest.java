@@ -16,7 +16,10 @@ import com.logistic.driverlogistic.model.ReadDriver;
 import com.logistic.driverlogistic.repository.DriverRepository;
 import com.logistic.driverlogistic.testobject.ModelObject;
 import jakarta.persistence.EntityNotFoundException;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,6 +37,9 @@ class DriverServiceImplTest {
 
   @Mock
   DriverMapper mapper;
+
+  @Mock
+  Logger logger;
 
 
   private final Driver driver = ModelObject.getDriver();
@@ -154,5 +160,33 @@ class DriverServiceImplTest {
     assertNull(exception.getMessage());
 
     verify(repository, times(1)).findById(id);
+  }
+
+  @Test
+  void  testDriverBirthday() {
+
+    Driver driver1 = Driver.builder()
+        .id(3L)
+        .fullName("Ban Smith")
+        .categories("C,CE")
+        .experience((byte) 7)
+        .birthDay(LocalDate.parse("1995-12-23"))
+        .passportNumber("MC5677887").build();
+
+    Driver driver2 = Driver.builder()
+        .id(45L)
+        .fullName("Ron Dick")
+        .categories("C,CE,D,DE")
+        .experience((byte) 7)
+        .birthDay(LocalDate.now().minusYears(25))
+        .passportNumber("MA4534321").build();
+
+    List<Driver> drivers = List.of(driver1, driver2);
+
+    when(repository.findAll()).thenReturn(drivers);
+
+    service.todayDriverBirthday();
+
+    verify(repository,times(1)).findAll();
   }
 }

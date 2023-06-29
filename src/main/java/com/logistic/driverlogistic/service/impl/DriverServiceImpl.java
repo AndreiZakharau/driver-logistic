@@ -7,7 +7,11 @@ import com.logistic.driverlogistic.model.ReadDriver;
 import com.logistic.driverlogistic.repository.DriverRepository;
 import com.logistic.driverlogistic.service.DriverService;
 import jakarta.persistence.EntityNotFoundException;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +25,8 @@ public class DriverServiceImpl implements DriverService {
   private final DriverRepository driverRepository;
 
   private final DriverMapper driverMapper;
+
+  private final Logger logger = LoggerFactory.getLogger(DriverServiceImpl.class);
 
 
   @Transactional
@@ -65,6 +71,23 @@ public class DriverServiceImpl implements DriverService {
     Pageable pageable = PageRequest.of(page, size);
     Page<Driver> cars = driverRepository.findAll(pageable);
     return cars.map(driverMapper::readDriverFromDriver);
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public void todayDriverBirthday() {
+
+    List<Driver> drivers = driverRepository.findAll();
+    for (Driver driver : drivers) {
+      if (driver.getBirthDay().getDayOfMonth() == LocalDate.now().getDayOfMonth() &&
+          driver.getBirthDay().getMonthValue() == LocalDate.now().getMonthValue()) {
+        int age = LocalDate.now().getYear() - driver.getBirthDay().getYear();
+        String message = String.format(
+            "Today is the driver's birthday - %s, him(her) today - %s, him(her) ID - %s",
+            driver.getFullName(), age, driver.getId());
+        logger.info(message);
+      }
+    }
   }
 
   private boolean driverByIdIsPresent(long id) {

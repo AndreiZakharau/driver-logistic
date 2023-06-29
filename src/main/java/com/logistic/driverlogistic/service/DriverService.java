@@ -5,4 +5,5 @@ import com.logistic.driverlogistic.model.ReadDriver;
 
 public interface DriverService extends DomainService<CreateDriver, ReadDriver> {
 
+  void todayDriverBirthday();
 }
